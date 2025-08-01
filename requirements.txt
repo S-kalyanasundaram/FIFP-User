@@ -7,7 +7,6 @@ openai
 # --- LangChain Packages ---
 langchain
 langchain-community
-pip install -U langchain-community
 # --- FAISS for Vector Storage (CPU version) ---
 faiss-cpu
 

@@ -1,7 +1,7 @@
-streamlit
-pymongo
-python-dotenv
-openai
 langchain
+langchain-community
 faiss-cpu
-tiktoken
+openai
+streamlit
+python-dotenv
+pymongo

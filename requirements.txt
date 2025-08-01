@@ -1,7 +1,15 @@
+# --- Core App Dependencies ---
+streamlit
+pymongo
+python-dotenv
+openai
+
+# --- LangChain Packages ---
 langchain
 langchain-community
+
+# --- FAISS for Vector Storage (CPU version) ---
 faiss-cpu
-openai
-streamlit
-python-dotenv
-pymongo
+
+# --- Other Recommended Dependencies ---
+tiktoken  # for token counting

@@ -1,4 +1,6 @@
 import streamlit as st
+import streamlit.components.v1 as components
+import streamlit_javascript as st_js 
 from pymongo import MongoClient
 from bson import ObjectId
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -10,6 +12,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
 from dotenv import load_dotenv
 import base64
+from streamlit_javascript import st_javascript
 
 # --- Load environment variables ---
 load_dotenv()
@@ -65,9 +68,32 @@ st.markdown("<h2 style='text-align: center; color: #0d6efd;'>Financial Independe
 st.markdown("<p style='text-align: center; color: #555;'>💼 Chat with your personalized data</p>", unsafe_allow_html=True)
 st.divider()
 
-# --- User ID Input ---
-user_input = st.text_input("🔑 Enter your `userId` (ObjectId):", key="userid")
+components.html(
+    """
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener("DOMContentLoaded", function () {
+            const userID = localStorage.getItem("userID");
 
+            // Send it to Streamlit using an iframe hack
+            const streamlitReceiver = window.parent;
+            if (streamlitReceiver) {
+                streamlitReceiver.postMessage({ type: "userID", value: userID }, "*");
+            }
+        });
+    </script>
+
+    <iframe id="receiver" style="display:none;"></iframe>
+    """,
+    height=0,  # Hide the component
+)
+
+# Placeholder to display userID
+userID = st_javascript("localStorage.getItem('userID');")
+
+# --- User ID Input ---
+#user_input = st.text_input("UserId", key="userid", label_visibility="collapsed",value=userID)
+user_input = userID
 # --- Load User Documents ---
 @st.cache_data(show_spinner=False)
 def load_user_documents(user_id_str):

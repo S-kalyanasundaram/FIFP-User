@@ -102,7 +102,9 @@ userID = st_javascript("localStorage.getItem('userID');")
 
 # --- User ID Input ---
 #user_input = st.text_input("UserId", key="userid", label_visibility="collapsed",value=userID)
-user_input = userID
+#user_input = userID
+query_params=st.query_params if hasattr(st,"query_params") else st.experimental_get_query_params()
+user_input=query_params.get("userID",[None])
 # --- Load User Documents ---
 @st.cache_data(show_spinner=False)
 def load_user_documents(user_id_str):

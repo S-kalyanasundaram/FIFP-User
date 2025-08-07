@@ -40,9 +40,9 @@ st.markdown("""
         .main {
             background-color: #f8f9fa;
         }
-        h1, h2, h3 {
+        h1,h2, h3 {
             text-align: center;
-            color: #0d6efd;
+            color: #0caa27;
         }
         .stTextInput>div>div>input {
             font-size: 16px;
@@ -59,12 +59,12 @@ logo_base64 = get_base64_image("fifp_logo.png")
 
 st.markdown(f"""
     <div style='text-align: center;'>
-        <img src="data:image/png;base64,{logo_base64}" width="120"/>
+        <img src="data:image/png;base64,{logo_base64}" width="100" height="100"/>
     </div>
 """, unsafe_allow_html=True)
 
 # --- Title & Subtitle ---
-st.markdown("<h2 style='text-align: center; color: #0d6efd;'>Financial Independence Focus Passion</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; font-size: 30px; color: #07771b;'>Financial Independence Focus Passion</h2>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: #555;'>💼 Chat with your personalized data</p>", unsafe_allow_html=True)
 st.divider()
 
@@ -150,7 +150,11 @@ if user_input:
             raw_docs = load_user_documents(user_input)
 
         if not raw_docs:
-            status.error("❌ No documents found for this userId.")
+            user_query = "12345ABC"  # Or wherever you're getting this from
+            A = "❌ No documents found for this userId."
+            status.error(A)
+
+                
         else:
             with status.container():
                 st.success("✅ Documents loaded. Setting up your assistant...")

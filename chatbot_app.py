@@ -40,13 +40,6 @@ st.markdown("""
         .main {
             background-color: #f8f9fa;
         }
-        h1,h2, h3 {
-            text-align: center;
-            color: #0caa27;
-        }
-        .stTextInput>div>div>input {
-            font-size: 16px;
-        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -59,14 +52,14 @@ logo_base64 = get_base64_image("fifp_logo.png")
 
 st.markdown(f"""
     <div style='text-align: center;'>
-        <img src="data:image/png;base64,{logo_base64}" width="100" height="100"/>
+        <img src="data:image/png;base64,{logo_base64}" width="60" height="60"/>
     </div>
 """, unsafe_allow_html=True)
 
 # --- Title & Subtitle ---
-st.markdown("<h2 style='text-align: center; font-size: 30px; color: #07771b;'>Financial Independence Focus Passion</h2>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #555;'>💼 Chat with your personalized data</p>", unsafe_allow_html=True)
-st.divider()
+st.markdown("<h2 style='text-align: center; font-size: 15px; color: #07771b;padding:0px;margin-top:10px'>Financial Independence Focus Passion</h2>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #555; margin-bottom: 0px;font-size:13px'> Chat with your personalized data</p>", unsafe_allow_html=True)
+#st.divider()
 
 components.html(
     """
@@ -91,8 +84,6 @@ components.html(
             }
         });
     </script>
-
-    <iframe id="receiver" style="display:none;"></iframe>
     """,
     height=0,  # Hide the component
 )
@@ -102,9 +93,9 @@ userID = st_javascript("localStorage.getItem('userID');")
 
 # --- User ID Input ---
 #user_input = st.text_input("UserId", key="userid", label_visibility="collapsed",value=userID)
-#user_input = userID
-query_params=st.query_params if hasattr(st,"query_params") else st.experimental_get_query_params()
-user_input=query_params.get("userID",[None])
+user_input = userID
+#query_params=st.query_params if hasattr(st,"query_params") else st.experimental_get_query_params()
+#user_input=query_params.get("userID",[None])
 # --- Load User Documents ---
 @st.cache_data(show_spinner=False)
 def load_user_documents(user_id_str):
@@ -146,28 +137,19 @@ if user_input:
     status = st.empty()
     try:
         with status.container():
-            st.info("⏳ Fetching your documents, please wait...")
             raw_docs = load_user_documents(user_input)
 
         if not raw_docs:
-            user_query = "12345ABC"  # Or wherever you're getting this from
             A = "❌ No documents found for this userId."
             status.error(A)
 
-                
         else:
-            with status.container():
-                st.success("✅ Documents loaded. Setting up your assistant...")
-
             qa = build_chatbot(raw_docs)
-            st.divider()
-            st.subheader("💬 Ask me anything about your details:")
+            st.markdown("<div style='text-align: center; font-size: 15px; color: #07771b;'><span>💬Ask me anything about your details:</span></div>", unsafe_allow_html=True)
 
             if "messages" not in st.session_state:
                 st.session_state.messages = []
-
             chat_container = st.container()
-
             # Display previous messages
             with chat_container:
                 for msg in st.session_state.messages:
@@ -176,8 +158,6 @@ if user_input:
 
             # Input box
             prompt = st.chat_input("Type your question here...")
-
-            # Handle user input
             if prompt:
                 # Append user message
                 st.session_state.messages.append({"role": "user", "content": prompt})

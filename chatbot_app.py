@@ -71,6 +71,15 @@ st.divider()
 components.html(
     """
     <script>
+
+    window.addEventListener('message', (event) => {
+        // Check the origin of the sender
+        const { userId } = event.data;
+        if (userId) {
+            localStorage.setItem('userId', userId);
+            console.log('userId saved in iframe localStorage:', userId);
+        }
+    });
         // Wait for the DOM to load
         document.addEventListener("DOMContentLoaded", function () {
             const userID = localStorage.getItem("userID");
